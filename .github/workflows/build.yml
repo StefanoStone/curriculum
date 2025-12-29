@@ -10,29 +10,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: texlive/texlive:latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install LaTeX
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            texlive-latex-base \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
-            texlive-xetex \
-            texlive-luatex \
-            lmodern \
-            texlive-lang-english \
-            biber \
-            latexmk
-
       - name: Build PDFs
-        working-directory: tex
         run: |
-          mkdir -p ../pdf
+          mkdir -p pdf
+          cd tex
+
           for f in main_eng.tex main_ita.tex; do
             pdflatex -interaction=nonstopmode "$f"
             pdflatex -interaction=nonstopmode "$f"
