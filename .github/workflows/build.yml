@@ -1,4 +1,4 @@
-name: tex_to_pdf
+name: Build LaTeX PDFs
 
 on:
   push:
@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install LaTeX
         run: |
@@ -19,13 +20,23 @@ jobs:
           sudo apt-get install -y \
             texlive-latex-base \
             texlive-latex-extra \
-            texlive-fonts-recommended
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-xetex \
+            texlive-luatex \
+            lmodern \
+            texlive-lang-english \
+            biber \
+            latexmk
 
       - name: Build PDFs
+        working-directory: tex
         run: |
+          mkdir -p ../pdf
           for f in main_eng.tex main_ita.tex; do
             pdflatex -interaction=nonstopmode "$f"
             pdflatex -interaction=nonstopmode "$f"
+            mv "${f%.tex}.pdf" ../pdf/
           done
 
       - name: Commit and push PDFs
@@ -33,11 +44,11 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-          git add *.pdf
+          git add pdf/*.pdf
 
           if git diff --cached --quiet; then
             echo "No PDF changes to commit"
           else
-            git commit -m "Auto-build PDFs"
+            git commit -m "Update generated PDFs"
             git push
           fi
