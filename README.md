@@ -1,2 +1,2 @@
 # curriculum
-CV for Website
+CV auto-built for Website

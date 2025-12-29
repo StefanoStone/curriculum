@@ -1,0 +1,118 @@
+### =====================
+### LaTeX build artifacts
+### =====================
+
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.brf
+*.bcf
+*.run.xml
+*.xdv
+
+# Temporary PDFs (keep final PDFs tracked)
+*.pdf~
+*.tmp
+
+### =====================
+### Editor files
+### =====================
+
+# VS Code
+.vscode/
+
+# TeXShop
+*.texshop
+*.tmproj
+*.tm_properties
+
+### =====================
+### OS junk
+### =====================
+
+.DS_Store
+Thumbs.db
+
+### =====================
+### GitHub Actions
+### =====================
+
+# Prevent committing logs/artifacts
+*.gz
+*.zip
+### =====================
+### LaTeX build artifacts
+### =====================
+
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.brf
+*.bcf
+*.run.xml
+*.xdv
+
+# Temporary PDFs (keep final PDFs tracked)
+*.pdf~
+*.tmp
+
+### =====================
+### Editor files
+### =====================
+
+# VS Code
+.vscode/
+
+# TeXShop
+*.texshop
+*.tmproj
+*.tm_properties
+
+### =====================
+### OS junk
+### =====================
+
+.DS_Store
+Thumbs.db
+
+### =====================
+### GitHub Actions
+### =====================
+
+# Prevent committing logs/artifacts
+*.gz
+*.zip
+
+templates/*.aux
+templates/*.log
+templates/*.out
+templates/*.toc
+templates/*.synctex.gz
