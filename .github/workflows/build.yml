@@ -23,7 +23,6 @@ jobs:
 
       - name: Build PDFs
         run: |
-          cd templates
           for f in main_eng.tex main_ita.tex; do
             pdflatex -interaction=nonstopmode "$f"
             pdflatex -interaction=nonstopmode "$f"
@@ -34,7 +33,7 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-          git add templates/*.pdf
+          git add *.pdf
 
           if git diff --cached --quiet; then
             echo "No PDF changes to commit"
