@@ -1,0 +1,486 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Stefano Campanella's CV},
+    pdfauthor={Stefano Campanella},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Stefano Campanella - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.1 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one-column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two-column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0.2 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in July 2025}\hspace{\widthof{Last updated in July 2025}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Stefano Campanella}
+
+        \vspace{0.3 cm}
+
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:stefanocamp187@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}stefanocamp187@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https:/stefanostone.github.io//}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}stefanostone.github.io}}%
+        \kern 0.25 cm%
+        % \AND%
+        % \kern 0.25 cm%
+        % \mbox{\hrefWithoutArrow{tel:+39-345-45-78-280‬}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+39 345 45 78 280}}%
+        % \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/stefano-campanella-b26998268}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Stefano Campanella}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm}Lugano, Switzerland}%
+        \kern 0.25 cm%
+        % \AND%
+        % \kern 0.25 cm%
+        % \mbox{\hrefWithoutArrow{https://github.com/StefanoStone}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}StefanoStone}}%
+    \end{header}
+
+    \vspace{0.3 cm - 0.3 cm}
+    
+    \section{Profile}
+
+        \begin{onecolentry}
+            I hold a strong academic background in Software and Data Engineering, as well as Software Systems Security, which has enabled me to approach modern development challenges with both technical expertise and strategic thinking. My experience spans from research and mentoring in academic settings to the design and delivery of effective software solutions in industry. I combine solid development skills with a clear understanding of user needs, consistently translating complex requirements into reliable, high-quality systems. Driven by a long-standing passion for design and video games, I place strong emphasis on systems usability, seeking intuitive and engaging ways to shape the user experience in the systems I develop.
+        \end{onecolentry}
+
+    
+    \section{Skills}
+
+        \begin{onecolentry}
+            Angular - Bash - Continuous Integration/Delivery - Data Mining - Docker - FastAPI - Generative AI/LLM - Git - GraphQL - HTML/CSS - Ionic - Java - JavaScript/TypeScript - Linux - Machine Learning - Mobile Development - NLP - Pharo - Public Speaking - Python - Smalltalk - Scikit-learn - Weka - XCode - Teamwork - Tensorflow 
+        \end{onecolentry}
+
+     
+    \section{Experience}
+         \begin{twocolentry}{
+        Lugano, CH
+        
+        Oct 2023 – Current}
+            \textbf{Software Engineer - Research Fellowship} \textit{Università della Svizzera italiana}
+
+            {\footnotesize Tech Stack: Python | Pharo Smalltalk | Docker | LaTeX | Git}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+                \begin{onecolentry}
+            \begin{highlights}
+                \item Fellowship in the ``Reverse Engineering, Visualization, Evolution Analysis Lab'' group (\href{https://reveal.si.usi.ch/}{REVEAL})
+                \item Research in the context of characterizing developers' activities and behavior in Open-Source projects
+                \item Teaching assistant duties for ``Engineering of Domain Specific languages'' and ``Software atelier 4'' 
+            \end{highlights}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        Molise, IT
+            
+        Mar 2022 - Jan 2023}
+            \textbf{Front-End Software Engineer} \textit{Datasound SRL}
+
+            {\footnotesize Tech Stack: Angular | Docker | Java Android | Swift | Git}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Maintenance of an Angular web portal for management software
+                \item Implementation of an Ionic mobile application for management software
+                \item Integration between the web portal and the mobile application
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+        
+        \begin{twocolentry}{
+        Molise, IT  
+            
+        Mar 2022 – Aug 2022}
+            \textbf{Software Engineer - Research Fellowship} \textit{University of Molise}
+
+            {\footnotesize Tech Stack: Angular | Java SpringBoot | Docker | Git}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Implementation of a tailored tool (Angular web portal, Ionic mobile application) aimed at implementing conservation objectives and measures in ``Natura 2000'' sites included in Reserves and other government areas managed by the Carabinieri (National Gendarmerie of Italy)
+                \item acted as developer, UI/UX designer, and product owner for the project
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        Molise, IT
+            
+        Oct 2021 – Dec 2021}
+            \textbf{Front-End Team Leader / Software Engineer} \textit{Associazione Perfetta Letizia}
+
+            {\footnotesize Tech Stack: Angular | Git }
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item UI/UX Design for a mobile application
+                \item Team management for the FE group and direct interaction with the stakeholders for the requirement analysis
+                \item Implementation of a mobile application in Ionic used by Associazione Perfetta Letizia to support elders in the local community
+            \end{highlights}
+        \end{onecolentry}
+
+
+
+       
+    \section{Education}   
+        \begin{twocolentry}{
+                 
+        Sept 2022 – July 2023}
+            \textbf{Università della Svizzera italiana} \textit{MS in Software and Data Engineering}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{Coursework:} Software engineering, High-performance computing, Artificial Intelligence, Software analytics, Software design and modeling (\href{https://www.usi.ch/en/education/master/software-and-data-engineering}{MSDE})
+                %\item GPA: 9.1/10.0
+            \end{highlights}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+                 
+        Sept 2021 – July 2023}
+            \textbf{University of Molise} \textit{MS in Software System Security}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{Coursework:} Network security, Software security, Computer forensics, Software analytics (\href{https://www2.dipbioter.unimol.it/sicurezza-dei-sistemi-software/}{SSS})
+                %\item Grade: 110L/110L 
+            \end{highlights}
+        \end{onecolentry}
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+                 
+        Sept 2018 – Oct 2021}
+            \textbf{University of Molise} \textit{BS in Computer Science}
+        \end{twocolentry}
+
+        % \vspace{0.10 cm}
+        % \begin{onecolentry}
+        %     \begin{highlights}
+        %         \item Grade: 108/110L 
+        %         \item \textbf{Coursework:} Math, Algorithm, Procedural and object-oriented programming language (C, Java), Logic, Software engineering, Networking, Artificial intelligence 
+        %     \end{highlights}
+        % \end{onecolentry}
+        
+
+    
+ 
+    \section{Projects}
+
+    \begin{twocolentry}{
+
+        2025}
+            \textbf{Python wrapper for CLOC (\href{https://github.com/USIREVEAL/pycloc}{pycloc})}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a wrapper to execute the CLOC CLI tool within Python code
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            
+            
+        2024-2025}
+            \textbf{Data miner for Git projects and GitHub interactions (\href{https://github.com/USIREVEAL/gitminer}{gitminer})}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a miner for the reveal group, capable of executing large-scale mining of GitHub repositories, collecting git and GitHub-related information (commits, issues, etc.)
+                \item Implemented in Pharo Smalltalk and deployed with Docker
+            \end{highlights}
+        \end{onecolentry}
+    
+        \vspace{0.2 cm}
+        
+        
+        \begin{twocolentry}{
+            
+            
+        2023}
+            \textbf{Proof of Concept Tool to automate videogame testing (MS Thesis)}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a working proof of concept to replicate gameplay execution on Trackmania, from videos scraped from Twitch.tv using machine learning techniques
+                \item Resulted in a publication @ fase4games2024 (colocated FSE24)
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            
+            
+        2021}
+            \textbf{Blood Pressure Measuring App (BS Thesis)}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a machine learning model to measure blood pressure from ECG data collected with a smartwatch.
+                \item Designed a prototype for a native Android app to measure blood pressure.
+            \end{highlights}
+        \end{onecolentry}
+
+        
+
+        
+    \section{Publications}
+
+        \begin{samepage}
+            \begin{twocolentry}{
+                July 2025
+            }
+                \textbf{Fine-Grained Developer Reification}
+
+                \vspace{0.10 cm}
+
+                \mbox{\textbf{Stefano Campanella}}
+            \end{twocolentry}
+
+
+            \vspace{0.10 cm}
+
+            \begin{onecolentry}
+        \href{https://doi.org/10.1145/3696630.3731463}{10.1145/3696630.3731463}
+            \end{onecolentry}
+        \end{samepage}
+
+        \vspace{0.2 cm}
+
+        
+        \begin{samepage}
+            \begin{twocolentry}{
+                Oct 2024
+            }
+                \textbf{Hidden in the Code: Visualizing True Developer Identities}
+
+                \vspace{0.10 cm}
+
+                \mbox{\textbf{Stefano Campanella}}, \mbox{Michele Lanza}
+            \end{twocolentry}
+
+
+            \vspace{0.10 cm}
+
+            \begin{onecolentry}
+        \href{https://doi.org/10.1109/VISSOFT64034.2024.00013}{10.1109/VISSOFT64034.2024.00013}
+            \end{onecolentry}
+        \end{samepage}
+
+        \vspace{0.2 cm}
+
+        \begin{samepage}
+        \begin{twocolentry}{
+            July 2024
+        }
+            \textbf{Towards the Automatic Replication of Gameplays \\ to Support Game Debugging}
+
+            \vspace{0.10 cm}
+
+             \mbox{\textbf{Stefano Campanella}}, \mbox{Emanuela Guglielmi}, \mbox{Rocco Oliveto}, \\ \mbox{Gabriele Bavota}, \mbox{Simone Scalabrino}
+        \end{twocolentry}
+
+
+        \vspace{0.10 cm}
+
+        \begin{onecolentry}
+    \href{https://doi.org/10.1145/3663532.3664465}{10.1109/3663532.3664465}
+        \end{onecolentry}
+    \end{samepage}
+
+
+    
+    \section{Languages}
+        
+        \begin{onecolentry}
+            \textbf{Mother Tongue:} Italian
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Other languages:} English (C1)
+        \end{onecolentry}
+
+
+
+
+
+\end{document}
