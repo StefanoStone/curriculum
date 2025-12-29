@@ -2,34 +2,45 @@ name: tex_to_pdf
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "**/*.tex"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-            sudo apt-get update -y \ 
-            sudo apt-get install texlive-full -y
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended
 
+      - name: Build PDFs
+        run: |
+          cd templates
+          for f in main_eng.tex main_ita.tex; do
+            pdflatex -interaction=nonstopmode "$f"
+            pdflatex -interaction=nonstopmode "$f"
+          done
 
-    - name: Generate pdfs 
-      run: |
-            cd /home/runner/work/repo/repo/templats
-            pdflatex main_eng.tex
-            pdflatex main_ita.tex
+      - name: Commit and push PDFs
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
 
-    - name: Commit and push PDFs
-      run: |
-            git config --global user.name 'GitHub Actions'
-            git config --global user.email 'actions@github.com'
-            git add templates/*.pdf
-            git commit -m "Update generated PDFs" || echo "No changes to commit"
+          git add templates/*.pdf
+
+          if git diff --cached --quiet; then
+            echo "No PDF changes to commit"
+          else
+            git commit -m "Auto-build PDFs"
             git push
+          fi
