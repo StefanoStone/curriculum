@@ -1,4 +1,4 @@
-name: Build LaTeX PDFs
+name: Build LaTeX PDFs (texlive + git)
 
 on:
   push:
@@ -10,28 +10,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: texlive/texlive:latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install git
+        run: |
+          apt-get update
+          apt-get install -y git
 
       - name: Build PDFs
-        uses: xu-cheng/latex-action@v3
-        with:
-          working_directory: tex
-          root_file: |
-            main_eng.tex
-            main_ita.tex
-          args: -interaction=nonstopmode
-
-      - name: Move PDFs
         run: |
           mkdir -p pdf
-          mv tex/*.pdf pdf/
+          cd tex
 
-      - name: Commit PDFs
+          for f in main_eng.tex main_ita.tex; do
+            pdflatex -interaction=nonstopmode "$f"
+            pdflatex -interaction=nonstopmode "$f"
+            mv "${f%.tex}.pdf" ../pdf/
+          done
+
+      - name: Commit and push PDFs
         run: |
           git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-          git add pdf/*.pdf
-          git diff --cached --quiet || git commit -m "Update generated PDFs"
-          git push
+          git config user.email "actions@githu
