@@ -3,8 +3,6 @@ name: Build LaTeX PDFs
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   build:
@@ -14,8 +12,7 @@ jobs:
       image: texlive/texlive:latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install git
         run: |
@@ -24,6 +21,8 @@ jobs:
 
       - name: Build PDFs
         run: |
+          cd "$GITHUB_WORKSPACE"
+
           mkdir -p pdf
           cd tex
 
@@ -34,8 +33,9 @@ jobs:
           done
 
       - name: Commit and push PDFs
-        working-directory: ${{ github.workspace }}
         run: |
+          cd "$GITHUB_WORKSPACE"
+
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
