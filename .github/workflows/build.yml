@@ -1,4 +1,4 @@
-name: Build LaTeX PDFs (texlive + git)
+name: Build LaTeX PDFs
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: texlive/texlive:latest
+      image: texlive/texlive:TL2024
 
     steps:
       - name: Checkout repository
@@ -34,6 +34,16 @@ jobs:
           done
 
       - name: Commit and push PDFs
+        working-directory: ${{ github.workspace }}
         run: |
           git config user.name "GitHub Actions"
-          git config user.email "actions@githu
+          git config user.email "actions@github.com"
+
+          git add pdf/*.pdf
+
+          if git diff --cached --quiet; then
+            echo "No PDF changes to commit"
+          else
+            git commit -m "Update generated PDFs"
+            git push
+          fi
