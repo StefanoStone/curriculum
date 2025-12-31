@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: texlive/texlive:latest
+      image: ghcr.io/stefanostone/curriculum:latest
 
     steps:
       - uses: actions/checkout@v4
