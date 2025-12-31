@@ -1,19 +1,18 @@
 FROM debian:bookworm-slim
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
         git \
         texlive-latex-base \
         texlive-latex-recommended \
         texlive-latex-extra \
-        texlive-xcolor \
-        texlive-fonts-extra \
+        fonts-font-awesome \
         lmodern \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /workspace
 
-# Default command
 CMD ["bash"]
