@@ -9,8 +9,9 @@ RUN apt-get update && \
         texlive-latex-base \
         texlive-latex-recommended \
         texlive-latex-extra \
-        texlive-fontawesome \
+        texlive-fonts-extra \
         lmodern \
+    && updmap-sys --enable Map=fontawesome5.map \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
