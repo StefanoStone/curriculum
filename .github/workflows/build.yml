@@ -3,36 +3,29 @@ name: Build LaTeX PDFs
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    container:
+      image: texlive/texlive:latest
 
-      - name: Install LaTeX
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install git
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            texlive-latex-base \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
-            texlive-xetex \
-            texlive-luatex \
-            lmodern \
-            texlive-lang-english \
-            biber \
-            latexmk
+          apt-get update
+          apt-get install -y git
 
       - name: Build PDFs
-        working-directory: tex
         run: |
-          mkdir -p ../pdf
+          cd "$GITHUB_WORKSPACE"
+
+          mkdir -p pdf
+          cd tex
+
           for f in main_eng.tex main_ita.tex; do
             pdflatex -interaction=nonstopmode "$f"
             pdflatex -interaction=nonstopmode "$f"
@@ -41,6 +34,8 @@ jobs:
 
       - name: Commit and push PDFs
         run: |
+          cd "$GITHUB_WORKSPACE"
+
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
