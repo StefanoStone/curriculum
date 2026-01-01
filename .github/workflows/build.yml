@@ -23,14 +23,16 @@ jobs:
 
     container:
       image: ghcr.io/stefanostone/curriculum:latest
+      options: --user 1001
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build PDFs
-        working-directory: "$GITHUB_WORKSPACE"
         run: |
+          cd "$GITHUB_WORKSPACE"
+
           mkdir -p pdf
           cd tex
 
@@ -41,8 +43,8 @@ jobs:
           done
 
       - name: Commit and push PDFs
-        working-directory: "$GITHUB_WORKSPACE"
         run: |
+          cd "$GITHUB_WORKSPACE"
           ls -la
 
           git config user.name "GitHub Actions"
