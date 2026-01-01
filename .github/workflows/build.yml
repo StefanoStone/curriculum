@@ -25,12 +25,8 @@ jobs:
       image: ghcr.io/stefanostone/curriculum:latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install git
-        run: |
-          apt-get update
-          apt-get install -y git
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Build PDFs
         run: |
@@ -48,7 +44,8 @@ jobs:
       - name: Commit and push PDFs
         run: |
           cd "$GITHUB_WORKSPACE"
-
+          ls -la
+          
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
