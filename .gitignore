@@ -10,6 +10,7 @@ tex/*.bbl
 tex/*.blg
 tex/*.run.xml
 tex/*.bcf
+tex/*.pdf
 
 ### Editors
 .vscode/
